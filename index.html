@@ -24,14 +24,43 @@
   .panic-dot { width: 7px; height: 7px; background: white; border-radius: 50%; animation: blink 1s ease-in-out infinite; }
   .gotta-btn { background: var(--red); color: #fff; border: none; border-radius: 8px; padding: 8px 14px; font-family: 'DM Mono', monospace; font-size: 11px; font-weight: 700; cursor: pointer; display: flex; align-items: center; gap: 6px; text-transform: uppercase; white-space: nowrap; transition: all 0.15s; }
   .gotta-btn.speaking { background: #ff7070; box-shadow: 0 0 18px rgba(255,60,60,0.7); }
-  .gotta-grid { display: grid; grid-template-columns: repeat(6, 1fr); gap: 6px; padding: 0 24px 14px; align-items: end; justify-items: center; }
-  .flip-switch { background: none; border: none; cursor: pointer; padding: 0; display: flex; flex-direction: column; align-items: center; }
-  .flip-switch svg { overflow: visible; }
-  .flip-switch .sw-lever { transition: transform 0.18s cubic-bezier(0.34,1.4,0.64,1); transform: translateY(20px); }
-  .flip-switch.active .sw-lever { transform: translateY(0px); }
-  .flip-switch.active .sw-knob { fill: #c8f135; }
-  .flip-switch.active .sw-led { fill: #c8f135; filter: drop-shadow(0 0 3px rgba(200,241,53,0.9)); }
-  .flip-switch.speaking .sw-body { stroke: #c8f135; }
+  .gotta-grid { display: grid; grid-template-columns: repeat(6, 1fr); gap: 8px; padding: 0 24px 14px; align-items: center; justify-items: center; }
+  .gotta-mini { background: radial-gradient(circle at 38% 35%, #ff6655 0%, #e02020 40%, #b01010 100%); border: none; border-radius: 50%; width: 44px; height: 44px; cursor: pointer; transition: all 0.12s; position: relative;
+    box-shadow:
+      0 5px 0 #7a0a0a,
+      0 6px 14px rgba(0,0,0,0.5),
+      inset 0 1px 2px rgba(255,180,180,0.4),
+      inset 0 -2px 4px rgba(0,0,0,0.4);
+    outline: none;
+  }
+  /* Grippy ridged ring around edge */
+  .gotta-mini::before {
+    content: '';
+    position: absolute;
+    inset: 2px;
+    border-radius: 50%;
+    border: 2px solid transparent;
+    background: repeating-conic-gradient(rgba(0,0,0,0.18) 0deg, rgba(255,255,255,0.07) 15deg, rgba(0,0,0,0.18) 30deg) border-box;
+    -webkit-mask: linear-gradient(#fff 0 0) padding-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: destination-out;
+    mask-composite: exclude;
+    pointer-events: none;
+  }
+  /* Central indentation dome */
+  .gotta-mini::after {
+    content: '';
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    width: 22px; height: 22px;
+    border-radius: 50%;
+    background: radial-gradient(circle at 40% 35%, rgba(255,255,255,0.15) 0%, rgba(0,0,0,0.25) 60%, rgba(0,0,0,0.4) 100%);
+    box-shadow: inset 0 2px 4px rgba(0,0,0,0.5), inset 0 -1px 2px rgba(255,255,255,0.1);
+    pointer-events: none;
+  }
+  .gotta-mini:active { transform: translateY(4px); box-shadow: 0 1px 0 #7a0a0a, 0 2px 6px rgba(0,0,0,0.4), inset 0 1px 2px rgba(255,180,180,0.3), inset 0 -1px 2px rgba(0,0,0,0.3); }
+  .gotta-mini.speaking { background: radial-gradient(circle at 38% 35%, #ff9988 0%, #ff4040 40%, #cc1010 100%); animation: emergencypulse 0.4s ease-in-out infinite alternate; }
+  @keyframes emergencypulse { from { box-shadow: 0 5px 0 #7a0a0a, 0 0 10px rgba(255,60,60,0.4); } to { box-shadow: 0 5px 0 #7a0a0a, 0 0 24px rgba(255,60,60,0.9); } }
   @keyframes blink { 0%,100%{opacity:1}50%{opacity:0.2} }
   .section-label { font-family: 'DM Mono', monospace; font-size: 10px; text-transform: uppercase; letter-spacing: 2px; color: var(--muted); padding: 0 24px 10px; text-align: center; }
   .scenes-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; padding: 0 24px 20px; }
@@ -56,20 +85,6 @@
   .silly-btn span { display: block; font-family: 'DM Mono', monospace; font-size: 8px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.5px; margin-top: 3px; }
   .silly-btn.active { border-color: var(--accent); background: rgba(200,241,53,0.1); animation: pulseActive 2s ease-in-out infinite; }
   .silly-row2 { display: flex; justify-content: center; gap: 12px; margin-top: 8px; align-items: center; }
-  .custom-switch-wrap { position: relative; display: flex; flex-direction: column; align-items: center; }
-  .custom-switch .sw-body { stroke: #997722 !important; }
-  .custom-switch.active .sw-led { fill: #ffcc00 !important; filter: drop-shadow(0 0 3px rgba(255,200,0,0.9)); }
-  .custom-switch.has-audio .sw-body { stroke: #ffcc00 !important; }
-  .custom-upload-dot { position: absolute; top: -6px; right: -6px; width: 16px; height: 16px; border-radius: 50%; background: #997722; border: none; color: #fff; font-size: 11px; font-weight: 700; line-height: 1; cursor: pointer; display: flex; align-items: center; justify-content: center; z-index: 2; }
-  .custom-upload-dot.loaded { background: #ffcc00; color: #000; } border: 1px solid var(--border); border-radius: 8px; color: var(--muted); font-family: 'DM Mono', monospace; font-size: 10px; padding: 4px 10px; cursor: pointer; text-transform: uppercase; letter-spacing: 0.5px; }
-  .phrase-edit-panel { margin: 0 24px 14px; background: var(--surface); border: 1.5px solid var(--accent-dim); border-radius: var(--radius); padding: 14px 16px; }
-  .phrase-edit-title { font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 4px; }
-  .phrase-edit-sub { font-family: 'DM Mono', monospace; font-size: 10px; color: var(--muted); margin-bottom: 12px; line-height: 1.5; }
-  .phrase-input-row { display: flex; align-items: center; gap: 8px; margin-bottom: 8px; }
-  .phrase-num { font-family: 'DM Mono', monospace; font-size: 10px; color: var(--muted); width: 14px; flex-shrink: 0; }
-  .phrase-input { flex: 1; background: var(--surface2); border: 1px solid var(--border); border-radius: 8px; padding: 8px 10px; font-size: 12px; color: var(--text); font-family: 'DM Sans', sans-serif; }
-  .phrase-input:focus { outline: none; border-color: var(--accent-dim); }
-  .phrase-save-btn { width: 100%; margin-top: 8px; background: var(--accent); color: #000; border: none; border-radius: 8px; padding: 10px; font-family: 'DM Mono', monospace; font-size: 12px; font-weight: 700; cursor: pointer; text-transform: uppercase; letter-spacing: 1px; }
   .ios-btn { display: flex; flex-direction: column; align-items: center; gap: 4px; border: none; border-radius: 50%; width: 60px; height: 60px; cursor: pointer; transition: all 0.15s; justify-content: center; }
   .ios-btn span { font-family: 'DM Mono', monospace; font-size: 8px; text-transform: uppercase; letter-spacing: 0.5px; margin-top: 2px; display: none; }
   .ios-decline { background: #ff3b30; box-shadow: 0 4px 0 #8b0000, 0 6px 12px rgba(255,59,48,0.4); margin-left: 8px; }
@@ -142,34 +157,30 @@
   </div>
   <div class="section-label">Select your cover</div>
   <div class="scenes-grid">
-    <div class="scene-card" data-scene="office" data-action="toggleScene" data-key="office"><span class="scene-emoji">🏢</span><div class="scene-name">Open Plan</div></div>
-    <div class="scene-card" data-scene="construction" data-action="toggleScene" data-key="construction"><span class="scene-emoji">🔨</span><div class="scene-name">Construction</div></div>
-    <div class="scene-card" data-scene="hospital" data-action="toggleScene" data-key="hospital"><span class="scene-emoji">🏥</span><div class="scene-name">Hospital</div></div>
-    <div class="scene-card" data-scene="warehouse" data-action="toggleScene" data-key="warehouse"><span class="scene-emoji">📦</span><div class="scene-name">Warehouse</div></div>
-    <div class="scene-card" data-scene="school" id="yourSceneCard" data-action="yourSceneClick" data-contextmenu="openYourSceneFile">
-      <input type="file" id="yourSceneFile"  style="display:none" onchange="loadYourScene(event)">
-      <span class="scene-emoji" id="yourSceneEmoji">🔊</span>
-      <div class="scene-name" id="yourSceneName">Your Scene</div>
-    </div>
-    <div class="scene-card" data-scene="meeting" data-action="toggleScene" data-key="meeting"><span class="scene-emoji">📊</span><div class="scene-name">Meeting</div></div>
+    <div class="scene-card" data-scene="office" onclick="toggleScene(this,'office')"><span class="scene-emoji">🏢</span><div class="scene-name">Open Plan</div></div>
+    <div class="scene-card" data-scene="construction" onclick="toggleScene(this,'construction')"><span class="scene-emoji">🔨</span><div class="scene-name">Construction</div></div>
+    <div class="scene-card" data-scene="hospital" onclick="toggleScene(this,'hospital')"><span class="scene-emoji">🏥</span><div class="scene-name">Hospital</div></div>
+    <div class="scene-card" data-scene="warehouse" onclick="toggleScene(this,'warehouse')"><span class="scene-emoji">📦</span><div class="scene-name">Warehouse</div></div>
+    <div class="scene-card" data-scene="school" onclick="toggleScene(this,'school')"><span class="scene-emoji">🏫</span><div class="scene-name">School</div></div>
+    <div class="scene-card" data-scene="meeting" onclick="toggleScene(this,'meeting')"><span class="scene-emoji">📊</span><div class="scene-name">Meeting</div></div>
   </div>
 
   <div class="play-area">
     <div class="silly-ring">
-      <button class="silly-btn" id="sb-doge" data-action="toggleSilly" data-key="doge"><svg width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg" style="display:block;margin:0 auto"><rect x="2" y="11" width="16" height="6" rx="2" fill="#888"/><rect x="18" y="12" width="7" height="4" rx="1" fill="#666"/><polygon points="25,11 28,14 25,17" fill="#aaa"/><rect x="3" y="13" width="2" height="2" rx="0.5" fill="#333"/><rect x="6" y="13" width="2" height="2" rx="0.5" fill="#333"/><rect x="9" y="13" width="2" height="2" rx="0.5" fill="#333"/><rect x="12" y="13" width="2" height="2" rx="0.5" fill="#333"/><rect x="1" y="10" width="4" height="8" rx="1" fill="#c8f135"/><circle cx="3" cy="14" r="1.5" fill="#0d0d0d"/></svg><span>DOGE</span></button>
-      <button class="silly-btn" id="sb-jungle" data-action="toggleSilly" data-key="jungle">🌴<br><span>JUNGLE</span></button>
+      <button class="silly-btn" id="sb-doge" onclick="toggleSilly('doge')"><svg width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg" style="display:block;margin:0 auto"><rect x="2" y="11" width="16" height="6" rx="2" fill="#888"/><rect x="18" y="12" width="7" height="4" rx="1" fill="#666"/><polygon points="25,11 28,14 25,17" fill="#aaa"/><rect x="3" y="13" width="2" height="2" rx="0.5" fill="#333"/><rect x="6" y="13" width="2" height="2" rx="0.5" fill="#333"/><rect x="9" y="13" width="2" height="2" rx="0.5" fill="#333"/><rect x="12" y="13" width="2" height="2" rx="0.5" fill="#333"/><rect x="1" y="10" width="4" height="8" rx="1" fill="#c8f135"/><circle cx="3" cy="14" r="1.5" fill="#0d0d0d"/></svg><span>DOGE</span></button>
+      <button class="silly-btn" id="sb-jungle" onclick="toggleSilly('jungle')">🌴<br><span>JUNGLE</span></button>
       <div class="play-ring" id="playRing"><div class="play-inner" id="playInner">▶</div></div>
-      <button class="silly-btn" id="sb-ambo" data-action="toggleSilly" data-key="ambo">🚑<br><span>AMBO</span></button>
-      <button class="silly-btn" id="sb-dali" data-action="toggleSilly" data-key="dali">🎨<br><span>DALI</span></button>
+      <button class="silly-btn" id="sb-ambo" onclick="toggleSilly('ambo')">🚑<br><span>AMBO</span></button>
+      <button class="silly-btn" id="sb-dali" onclick="toggleSilly('dali')">🎨<br><span>DALI</span></button>
     </div>
     <div class="silly-row2">
-      <button class="ios-btn ios-answer" data-action="iosAnswer">
+      <button class="ios-btn ios-answer" onclick="iosAnswer()">
         <svg width="22" height="22" viewBox="0 0 22 22" fill="none"><path d="M6.5 10.5c1.5 3 4 5.5 7 7l2-2c.3-.3.7-.4 1-.2 1.1.4 2.3.6 3.5.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1C10.6 21 1 11.4 1 2c0-.6.4-1 1-1h3.5c.6 0 1 .4 1 1 0 1.2.2 2.4.6 3.5.1.3 0 .7-.2 1l-2 2z" fill="white"/></svg>
         <span>Answer</span>
       </button>
-      <button class="silly-btn" id="sb-ed" data-action="toggleSilly" data-key="ed">🏥<br><span>ED</span></button>
-      <button class="silly-btn" id="sb-rain" data-action="toggleSilly" data-key="rain">🌧️<br><span>RAIN</span></button>
-      <button class="ios-btn ios-decline" data-action="iosDecline">
+      <button class="silly-btn" id="sb-ed" onclick="toggleSilly('ed')">🏥<br><span>ED</span></button>
+      <button class="silly-btn" id="sb-rain" onclick="toggleSilly('rain')">🌧️<br><span>RAIN</span></button>
+      <button class="ios-btn ios-decline" onclick="iosDecline()">
         <svg width="22" height="22" viewBox="0 0 22 22" fill="none"><path d="M3 19L19 3M3 3l16 16" stroke="white" stroke-width="2.5" stroke-linecap="round"/></svg>
         <span>Decline</span>
       </button>
@@ -203,65 +214,33 @@
     <div class="defcon-status" id="defconStatus"></div>
   </div>
   <div style="padding:0 24px 14px;">
-  <div style="padding:0 24px 4px;display:flex;justify-content:flex-end;">
-    <div style="font-family:'DM Mono',monospace;font-size:9px;color:#333;text-transform:uppercase;letter-spacing:1px;" id="editHint">Hold to edit lines</div>
-  </div>
-  <div class="gotta-grid" id="gottaGrid" data-longpress="gottaGrid"    >
-    <button class="flip-switch" data-action="gottaGo" data-idx="0"><svg width="28" height="68" viewBox="0 0 28 68"><rect class="sw-body" x="1" y="1" width="26" height="66" rx="5" fill="#1e1e1e" stroke="#444" stroke-width="1.5"/><rect x="12" y="8" width="4" height="44" rx="2" fill="#111"/><circle cx="14" cy="60" r="3" fill="#2a2a2a" class="sw-led"/><g class="sw-lever"><rect x="10" y="20" width="8" height="20" rx="3" fill="#666"/><ellipse cx="14" cy="20" rx="7" ry="5" fill="#999"/><ellipse cx="14" cy="19" rx="5" ry="3.5" fill="#ccc"/></g></svg></button>
-    <button class="flip-switch" data-action="gottaGo" data-idx="1"><svg width="28" height="68" viewBox="0 0 28 68"><rect class="sw-body" x="1" y="1" width="26" height="66" rx="5" fill="#1e1e1e" stroke="#444" stroke-width="1.5"/><rect x="12" y="8" width="4" height="44" rx="2" fill="#111"/><circle cx="14" cy="60" r="3" fill="#2a2a2a" class="sw-led"/><g class="sw-lever"><rect x="10" y="20" width="8" height="20" rx="3" fill="#666"/><ellipse cx="14" cy="20" rx="7" ry="5" fill="#999"/><ellipse cx="14" cy="19" rx="5" ry="3.5" fill="#ccc"/></g></svg></button>
-    <button class="flip-switch" data-action="gottaGo" data-idx="2"><svg width="28" height="68" viewBox="0 0 28 68"><rect class="sw-body" x="1" y="1" width="26" height="66" rx="5" fill="#1e1e1e" stroke="#444" stroke-width="1.5"/><rect x="12" y="8" width="4" height="44" rx="2" fill="#111"/><circle cx="14" cy="60" r="3" fill="#2a2a2a" class="sw-led"/><g class="sw-lever"><rect x="10" y="20" width="8" height="20" rx="3" fill="#666"/><ellipse cx="14" cy="20" rx="7" ry="5" fill="#999"/><ellipse cx="14" cy="19" rx="5" ry="3.5" fill="#ccc"/></g></svg></button>
-    <button class="flip-switch" data-action="gottaGo" data-idx="3"><svg width="28" height="68" viewBox="0 0 28 68"><rect class="sw-body" x="1" y="1" width="26" height="66" rx="5" fill="#1e1e1e" stroke="#444" stroke-width="1.5"/><rect x="12" y="8" width="4" height="44" rx="2" fill="#111"/><circle cx="14" cy="60" r="3" fill="#2a2a2a" class="sw-led"/><g class="sw-lever"><rect x="10" y="20" width="8" height="20" rx="3" fill="#666"/><ellipse cx="14" cy="20" rx="7" ry="5" fill="#999"/><ellipse cx="14" cy="19" rx="5" ry="3.5" fill="#ccc"/></g></svg></button>
-    <button class="flip-switch" data-action="gottaGo" data-idx="4"><svg width="28" height="68" viewBox="0 0 28 68"><rect class="sw-body" x="1" y="1" width="26" height="66" rx="5" fill="#1e1e1e" stroke="#444" stroke-width="1.5"/><rect x="12" y="8" width="4" height="44" rx="2" fill="#111"/><circle cx="14" cy="60" r="3" fill="#2a2a2a" class="sw-led"/><g class="sw-lever"><rect x="10" y="20" width="8" height="20" rx="3" fill="#666"/><ellipse cx="14" cy="20" rx="7" ry="5" fill="#999"/><ellipse cx="14" cy="19" rx="5" ry="3.5" fill="#ccc"/></g></svg></button>
-    <div class="custom-switch-wrap">
-      <button class="flip-switch custom-switch" id="customSwitch"
-        data-longpress="slot6"  
-         >
-        <svg width="28" height="68" viewBox="0 0 28 68"><rect class="sw-body" x="1" y="1" width="26" height="66" rx="5" fill="#1e1e1e" stroke="#776633" stroke-width="1.5"/><rect x="12" y="8" width="4" height="44" rx="2" fill="#111"/><circle cx="14" cy="60" r="3" fill="#443300" class="sw-led"/><g class="sw-lever"><rect x="10" y="20" width="8" height="20" rx="3" fill="#775500"/><ellipse cx="14" cy="20" rx="7" ry="5" fill="#997722"/><ellipse cx="14" cy="19" rx="5" ry="3.5" fill="#ccaa44"/></g></svg>
-      </button>
-      <div class="custom-upload-dot" title="Hold to replace audio">⏱</div>
+    <div class="gotta-grid">
+      <button class="gotta-mini" onclick="gottaGo(0)"></button>
+      <button class="gotta-mini" onclick="gottaGo(1)"></button>
+      <button class="gotta-mini" onclick="gottaGo(2)"></button>
+      <button class="gotta-mini" onclick="gottaGo(3)"></button>
+      <button class="gotta-mini" onclick="gottaGo(4)"></button>
+      <button class="gotta-mini" onclick="gottaGo(5)"></button>
     </div>
-  </div>
-
-  <!-- Recording modal -->
-  <div id="recordModal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.88);z-index:9999;display:none;flex-direction:column;align-items:center;justify-content:center;gap:16px;padding:32px;">
-    <div style="font-family:'Bebas Neue',sans-serif;font-size:28px;letter-spacing:1px;color:#f0f0f0;">Record Audio</div>
-    <div style="font-family:'DM Mono',monospace;font-size:10px;color:#666;text-transform:uppercase;letter-spacing:1px;" id="recordScene">For: current scene</div>
-    <div id="recordStatus" style="font-family:'DM Mono',monospace;font-size:12px;color:#666;letter-spacing:1px;">Ready</div>
-    <div id="recordTimer" style="font-family:'Bebas Neue',sans-serif;font-size:48px;color:#c8f135;min-height:60px;"></div>
-    <button id="recordBtn" data-action="toggleRecord" style="width:80px;height:80px;border-radius:50%;border:none;background:#ff4040;cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 0 #8b0000,0 6px 20px rgba(255,60,60,0.4);">
-      <svg width="28" height="28" viewBox="0 0 28 28" fill="white"><circle cx="14" cy="14" r="8"/></svg>
-    </button>
-    <div style="font-family:'DM Mono',monospace;font-size:9px;color:#444;text-align:center;max-width:280px;line-height:1.6;">Max 15 seconds. Or pick a file —<br>download it to your device in Files app first.</div>
-    <button data-action="openSlot6Modal" style="background:none;border:1px solid #333;border-radius:8px;padding:8px 16px;font-family:'DM Mono',monospace;font-size:10px;color:#666;cursor:pointer;text-transform:uppercase;letter-spacing:1px;">📁 Choose File</button>
-    <input type="file" id="slot6FileModal" style="display:none" onchange="loadSlot6FromModal(event)">
-    <button data-action="closeRecordModal" style="background:none;border:none;font-family:'DM Mono',monospace;font-size:10px;color:#444;cursor:pointer;text-transform:uppercase;letter-spacing:1px;margin-top:8px;">✕ Cancel</button>
-  </div>
-  <!-- Phrase edit panel -->
-  <div class="phrase-edit-panel" id="phraseEditPanel" style="display:none">
-    <div class="phrase-edit-title">✏️ Custom Voice Lines</div>
-    <div class="phrase-edit-sub">These play when you flip the switches above. Add your name, your boss's name, whatever.</div>
-    <div id="phraseInputs"></div>
-    <button class="phrase-save-btn" data-action="savePhrases">✓ Done</button>
-  </div>
   </div>
   <div class="alibi-strip">
     <div class="alibi-header">
       <div class="alibi-title">🗂 Alibi Generator</div>
-      <button class="alibi-regen" data-action="newAlibi">↻ New</button>
+      <button class="alibi-regen" onclick="newAlibi()">↻ New</button>
     </div>
     <div class="caller-chips" id="callerChips">
-      <button class="caller-chip active" data-action="setCaller" data-key="sales">Sales</button>
-      <button class="caller-chip" data-action="setCaller" data-key="boss">Boss</button>
-      <button class="caller-chip" data-action="setCaller" data-key="partner">Partner</button>
-      <button class="caller-chip" data-action="setCaller" data-key="mum">Mum</button>
-      <button class="caller-chip" data-action="setCaller" data-key="mate">Mate</button>
+      <button class="caller-chip active" onclick="setCaller(this,'sales')">Sales</button>
+      <button class="caller-chip" onclick="setCaller(this,'boss')">Boss</button>
+      <button class="caller-chip" onclick="setCaller(this,'partner')">Partner</button>
+      <button class="caller-chip" onclick="setCaller(this,'mum')">Mum</button>
+      <button class="caller-chip" onclick="setCaller(this,'mate')">Mate</button>
     </div>
     <div class="alibi-text" id="alibiText">"Mate, I'm stuck in this all-hands meeting, CEO on video call. Won't be done until 5 at least."</div>
   </div>
   <div class="action-row">
-    <button class="action-btn" id="escalateBtn" data-action="toggleAutoEscalate">📈 AUTO ESCALATE</button>
-    <button class="action-btn" id="chaosBtn" data-action="toggleAutoChaos">🎲 AUTO CHAOS</button>
-    <button class="action-btn" id="losingBtn" data-action="losingYou">📵 LOSING YOU</button>
+    <button class="action-btn" id="escalateBtn" onclick="toggleAutoEscalate()">📈 AUTO ESCALATE</button>
+    <button class="action-btn" id="chaosBtn" onclick="toggleAutoChaos()">🎲 AUTO CHAOS</button>
+    <button class="action-btn" id="losingBtn" onclick="losingYou()">📵 LOSING YOU</button>
   </div>
 
   <div class="bottom-nav">
@@ -272,580 +251,17 @@
   </div>
 </div>
 <script>
+let audioCtx=null,isPlaying=false,masterGain=null,defconGain=null,analyser=null,vizRaf=null;
+let activeSceneNodes={};
+let activeSillyNodes={};
+let activeScenes=new Set();
+let activeSillys=new Set();
+let volumePct=68,intensityPct=50,defconPct=0,currentScene='office',firstScene=null;
+let constructionAudioBuf=null;
 
-// Event delegation - all handlers registered after DOM ready
-document.addEventListener('click', function(e){
-  const el = e.target.closest('[data-action]');
-  if(!el) return;
-  const action = el.getAttribute('data-action');
-  const key = el.getAttribute('data-key');
-  const idx = el.getAttribute('data-idx');
-  switch(action){
-    case 'toggleScene': toggleScene(el, key); break;
-    case 'yourSceneClick': yourSceneClick(e, el); break;
-    case 'toggleSilly': toggleSilly(key); break;
-    case 'iosAnswer': iosAnswer(); break;
-    case 'iosDecline': iosDecline(); break;
-    case 'gottaGo': gottaGo(parseInt(idx)); break;
-    case 'toggleAutoEscalate': toggleAutoEscalate(); break;
-    case 'toggleAutoChaos': toggleAutoChaos(); break;
-    case 'losingYou': losingYou(); break;
-    case 'newAlibi': newAlibi(); break;
-    case 'setCaller': setCaller(el, key); break;
-    case 'togglePhraseEdit': togglePhraseEdit(); break;
-    case 'savePhrases': savePhrases(); break;
-    case 'toggleRecord': toggleRecord(); break;
-    case 'closeRecordModal': closeRecordModal(); break;
-    case 'openSlot6Modal': document.getElementById('slot6FileModal').click(); break;
-    case 'openYourSceneFile': document.getElementById('yourSceneFile').click(); break;
-    case 'hangUp': hangUp(); break;
-    case 'togglePrankRecord': togglePrankRecord(); break;
-    case 'playPrankClip': playPrankClip(parseInt(idx)); break;
-    case 'sharePrankClip': sharePrankClip(parseInt(idx)); break;
-  }
-});
-document.addEventListener('contextmenu', function(e){
-  const el = e.target.closest('[data-contextmenu]');
-  if(!el) return;
-  e.preventDefault();
-  document.getElementById('yourSceneFile').click();
-});
-// Long press handlers
-let _lpTimer=null, _lpTarget=null;
-document.addEventListener('mousedown', function(e){
-  const el = e.target.closest('[data-longpress]');
-  if(!el) return;
-  _lpTarget=el.getAttribute('data-longpress');
-  _lpTimer=setTimeout(()=>{_lpTimer=null; if(_lpTarget==='slot6') triggerSlot6Upload(currentScene); else if(_lpTarget==='gottaGrid') togglePhraseEdit();},600);
-});
-document.addEventListener('touchstart', function(e){
-  const el = e.target.closest('[data-longpress]');
-  if(!el) return;
-  _lpTarget=el.getAttribute('data-longpress');
-  _lpTimer=setTimeout(()=>{_lpTimer=null; if(_lpTarget==='slot6') triggerSlot6Upload(currentScene); else if(_lpTarget==='gottaGrid') togglePhraseEdit();},600);
-},{passive:true});
-function _lpCancel(){if(_lpTimer){clearTimeout(_lpTimer);_lpTimer=null;}}
-document.addEventListener('mouseup', _lpCancel);
-document.addEventListener('mouseleave', _lpCancel);
-document.addEventListener('touchend', function(e){
-  if(_lpTimer){clearTimeout(_lpTimer);_lpTimer=null;}
-},{passive:true});
-
-async function ensureConstructionDecoded(){
-  if(constructionAudioBuf) return;
-  if(!window._constructionRaw) return;
-  try {
-    const copy=window._constructionRaw.slice(0);
-    constructionAudioBuf=await audioCtx.decodeAudioData(copy);
-  } catch(e){ console.warn('decode failed:',e); }
-}
-
-const scenes={
-  office:{build(ctx,dest){
-    const nodes=[];
-    const s=noiseSrc(ctx,'pink',3);s.loop=true;
-    const lp=bq(ctx,'lowpass',800);const g=gn(ctx,0.18);
-    s.connect(lp);lp.connect(g);g.connect(dest);s.start();nodes.push(s);
-    const o=os(ctx,'sine',50);const og=gn(ctx,0.04);
-    o.connect(og);og.connect(dest);o.start();nodes.push(o);
-    rep(ctx,dest,nodes,()=>kb(ctx,dest),1.5,4);
-    return nodes;
-  }},
-  construction:{async build(ctx,dest){
-    const nodes=[];
-    await ensureConstructionDecoded();
-    if(constructionAudioBuf){
-      const src=ctx.createBufferSource();
-      src.buffer=constructionAudioBuf;
-      src.loop=true;
-      const g=gn(ctx,0.9);
-      src.connect(g);g.connect(dest);src.start();nodes.push(src);
-    } else {
-      // Fallback synth
-      const s=noiseSrc(ctx,'brown',3);s.loop=true;
-      const lp=bq(ctx,'lowpass',300);const g=gn(ctx,0.4);
-      s.connect(lp);lp.connect(g);g.connect(dest);s.start();nodes.push(s);
-    }
-    // Overlay: low rumble + sporadic hammering
-    const rumble=noiseSrc(ctx,'brown',3);rumble.loop=true;
-    const rlp=bq(ctx,'lowpass',150);const rg=gn(ctx,0.1);
-    rumble.connect(rlp);rlp.connect(rg);rg.connect(dest);rumble.start();nodes.push(rumble);
-    rep(ctx,dest,nodes,()=>hammer(ctx,dest),2,5);
-    return nodes;
-  }},
-  hospital:{build(ctx,dest){
-    const nodes=[];
-    const s=noiseSrc(ctx,'white',3);s.loop=true;
-    const lp=bq(ctx,'lowpass',2000);const g=gn(ctx,0.06);
-    s.connect(lp);lp.connect(g);g.connect(dest);s.start();nodes.push(s);
-    rep(ctx,dest,nodes,()=>beep(ctx,dest),0.9,1.1);
-    rep(ctx,dest,nodes,()=>trolley(ctx,dest),4,9);
-    return nodes;
-  }},
-  warehouse:{build(ctx,dest){
-    const nodes=[];
-    const s=noiseSrc(ctx,'brown',3);s.loop=true;
-    const lp=bq(ctx,'lowpass',500);const g=gn(ctx,0.3);
-    s.connect(lp);lp.connect(g);g.connect(dest);s.start();nodes.push(s);
-    rep(ctx,dest,nodes,()=>fbeep(ctx,dest),2,5);
-    rep(ctx,dest,nodes,()=>pallet(ctx,dest),3,8);
-    return nodes;
-  }},
-  school:{build(ctx,dest){
-    const nodes=[];
-    if(yourSceneBuffer){
-      const copy=yourSceneBuffer.slice(0);
-      ctx.decodeAudioData(copy).then(buf=>{
-        const src=ctx.createBufferSource();
-        src.buffer=buf;src.loop=true;
-        const g=ctx.createGain();g.gain.value=0.9;
-        src.connect(g);g.connect(dest);src.start();
-        nodes.push(src);
-      }).catch(()=>{});
-    } else {
-      const s=noiseSrc(ctx,'pink',3);s.loop=true;
-      const bp=bq(ctx,'bandpass',1200);bp.Q.value=0.5;const g=gn(ctx,0.22);
-      s.connect(bp);bp.connect(g);g.connect(dest);s.start();nodes.push(s);
-      rep(ctx,dest,nodes,()=>bell(ctx,dest),10,20);
-    }
-    return nodes;
-  }},
-  meeting:{build(ctx,dest){
-    const nodes=[];
-    const s=noiseSrc(ctx,'pink',3);s.loop=true;
-    const lp=bq(ctx,'lowpass',600);const g=gn(ctx,0.1);
-    s.connect(lp);lp.connect(g);g.connect(dest);s.start();nodes.push(s);
-    const o=os(ctx,'sine',60);const og=gn(ctx,0.03);
-    o.connect(og);og.connect(dest);o.start();nodes.push(o);
-    rep(ctx,dest,nodes,()=>shuffle(ctx,dest),3,8);
-    return nodes;
-  }}
-};
-
-function noiseSrc(ctx,type,secs){
-  const len=ctx.sampleRate*secs,buf=ctx.createBuffer(1,len,ctx.sampleRate),d=buf.getChannelData(0);
-  if(type==='white'){for(let i=0;i<len;i++)d[i]=Math.random()*2-1;}
-  else if(type==='pink'){let b0=0,b1=0,b2=0,b3=0,b4=0,b5=0,b6=0;
-    for(let i=0;i<len;i++){const w=Math.random()*2-1;
-      b0=0.99886*b0+w*0.0555179;b1=0.99332*b1+w*0.0750759;
-      b2=0.96900*b2+w*0.1538520;b3=0.86650*b3+w*0.3104856;
-      b4=0.55000*b4+w*0.5329522;b5=-0.7616*b5-w*0.0168980;
-      d[i]=(b0+b1+b2+b3+b4+b5+b6+w*0.5362)*0.11;b6=w*0.115926;}}
-  else{let last=0;for(let i=0;i<len;i++){const w=Math.random()*2-1;last=(last+0.02*w)/1.02;d[i]=last*3.5;}}
-  const src=ctx.createBufferSource();src.buffer=buf;return src;
-}
-function bq(ctx,type,freq){const f=ctx.createBiquadFilter();f.type=type;f.frequency.value=freq;return f;}
-function gn(ctx,v){const g=ctx.createGain();g.gain.value=v;return g;}
-function os(ctx,type,freq){const o=ctx.createOscillator();o.type=type;o.frequency.value=freq;return o;}
-function kb(ctx,dest){
-  const count=5+Math.floor(Math.random()*15);
-  for(let i=0;i<count;i++){
-    const t=ctx.currentTime+i*(0.04+Math.random()*0.06);
-    const buf=ctx.createBuffer(1,Math.floor(ctx.sampleRate*0.04),ctx.sampleRate);
-    const d=buf.getChannelData(0);
-    for(let j=0;j<d.length;j++)d[j]=(Math.random()*2-1)*Math.exp(-j/(d.length*0.3));
-    const s=ctx.createBufferSource();s.buffer=buf;
-    const g=gn(ctx,0.15+Math.random()*0.1);
-    const hp=bq(ctx,'highpass',2000);
-    s.connect(hp);hp.connect(g);g.connect(dest);s.start(t);
-  }
-}
-function hammer(ctx,dest){
-  const t=ctx.currentTime;
-  const o=ctx.createOscillator();o.type='sine';
-  o.frequency.setValueAtTime(120,t);o.frequency.exponentialRampToValueAtTime(40,t+0.15);
-  const g=ctx.createGain();g.gain.setValueAtTime(0.5,t);g.gain.exponentialRampToValueAtTime(0.001,t+0.2);
-  o.connect(g);g.connect(dest);o.start(t);o.stop(t+0.25);
-}
-function beep(ctx,dest){
-  const t=ctx.currentTime;
-  const o=ctx.createOscillator();o.type='sine';o.frequency.value=880;
-  const g=ctx.createGain();
-  g.gain.setValueAtTime(0,t);g.gain.linearRampToValueAtTime(0.08,t+0.01);
-  g.gain.setValueAtTime(0.08,t+0.08);g.gain.linearRampToValueAtTime(0,t+0.1);
-  o.connect(g);g.connect(dest);o.start(t);o.stop(t+0.15);
-}
-function trolley(ctx,dest){
-  const s=noiseSrc(ctx,'white',0.4);
-  const hp=bq(ctx,'highpass',1500);const g=gn(ctx,0.12);
-  s.connect(hp);hp.connect(g);g.connect(dest);s.start();
-}
-function fbeep(ctx,dest){
-  const t=ctx.currentTime;
-  for(let i=0;i<3;i++){
-    const o=ctx.createOscillator();o.type='square';o.frequency.value=660;
-    const g=ctx.createGain();const s=t+i*0.4;
-    g.gain.setValueAtTime(0.07,s);g.gain.setValueAtTime(0,s+0.2);
-    o.connect(g);g.connect(dest);o.start(s);o.stop(s+0.25);
-  }
-}
-function pallet(ctx,dest){
-  const t=ctx.currentTime;
-  const o=ctx.createOscillator();o.type='sine';
-  o.frequency.setValueAtTime(80,t);o.frequency.exponentialRampToValueAtTime(30,t+0.3);
-  const g=ctx.createGain();g.gain.setValueAtTime(0.6,t);g.gain.exponentialRampToValueAtTime(0.001,t+0.35);
-  o.connect(g);g.connect(dest);o.start(t);o.stop(t+0.4);
-}
-function bell(ctx,dest){
-  const t=ctx.currentTime;
-  [880,1100,880,1100].forEach((freq,i)=>{
-    const o=ctx.createOscillator();o.type='sine';o.frequency.value=freq;
-    const g=ctx.createGain();const s=t+i*0.25;
-    g.gain.setValueAtTime(0.15,s);g.gain.exponentialRampToValueAtTime(0.001,s+0.22);
-    o.connect(g);g.connect(dest);o.start(s);o.stop(s+0.25);
-  });
-}
-function shuffle(ctx,dest){
-  const s=noiseSrc(ctx,'white',0.3);
-  const bp=bq(ctx,'bandpass',3000);bp.Q.value=0.8;const g=gn(ctx,0.08);
-  s.connect(bp);bp.connect(g);g.connect(dest);s.start();
-}
-function rep(ctx,dest,nodes,fn,min,max){
-  const tick={cancelled:false};
-  nodes.push(tick);
-  function go(){if(tick.cancelled)return;fn();tick.timer=setTimeout(go,(min+Math.random()*(max-min))*1000);}
-  go();
-}
-
-function initAudio(){
-  if(audioCtx)return;
-  audioCtx=new(window.AudioContext||window.webkitAudioContext)();
-  analyser=audioCtx.createAnalyser();analyser.fftSize=64;
-  masterGain=audioCtx.createGain();defconGain=audioCtx.createGain();
-  masterGain.connect(defconGain);defconGain.connect(analyser);analyser.connect(audioCtx.destination);
-  applyVol();applyDefcon();
-}
-
-async function startOneScene(key){
-  if(activeSceneNodes[key])return;
-  initAudio();
-  if(audioCtx.state==='suspended')audioCtx.resume();
-  const result=scenes[key].build(audioCtx,masterGain);
-  activeSceneNodes[key]=await Promise.resolve(result);
-}
-function stopOneScene(key){
-  const nodes=activeSceneNodes[key]||[];
-  nodes.forEach(n=>{
-    if(n&&n.stop){try{n.stop();}catch(e){}}
-    if(n&&n.cancelled!==undefined){n.cancelled=true;clearTimeout(n.timer);}
-  });
-  delete activeSceneNodes[key];
-}
-async function startAllActive(){
-  initAudio();
-  if(audioCtx.state==='suspended')audioCtx.resume();
-  for(const key of activeScenes) await startOneScene(key);
-  for(const key of activeSillys) startOneSilly(key);
-  startViz();
-}
-function stopAll(){
-  Object.keys(activeSceneNodes).forEach(stopOneScene);
-  Object.keys(activeSillyNodes).forEach(stopOneSilly);
-  stopViz();
-}
-
-// Silly sounds
-const sillyDefs={
-  doge:{build(ctx,dest){
-    const nodes=[];
-    if(window._dogeRaw){
-      const copy=window._dogeRaw.slice(0);
-      ctx.decodeAudioData(copy).then(buf=>{
-        const src=ctx.createBufferSource();
-        src.buffer=buf;src.loop=true;
-        const g=ctx.createGain();g.gain.value=0.9;
-        src.connect(g);g.connect(dest);src.start();
-        nodes.push(src);
-      }).catch(e=>console.warn('doge decode err',e));
-    } else {
-      // Fallback synth barks
-      function bark(){
-        const t=ctx.currentTime;
-        const o=ctx.createOscillator();o.type='sine';
-        o.frequency.setValueAtTime(200,t);o.frequency.exponentialRampToValueAtTime(600,t+0.08);o.frequency.exponentialRampToValueAtTime(300,t+0.18);
-        const g=ctx.createGain();g.gain.setValueAtTime(0.3,t);g.gain.exponentialRampToValueAtTime(0.001,t+0.22);
-        o.connect(g);g.connect(dest);o.start(t);o.stop(t+0.25);
-      }
-      const tick={cancelled:false};nodes.push(tick);
-      function go(){if(tick.cancelled)return;bark();tick.timer=setTimeout(go,(0.4+Math.random()*1.2)*1000);}
-      go();
-    }
-    return nodes;
-  }},
-  jungle:{build(ctx,dest){
-    const nodes=[];
-    if(window._jungleRaw){
-      const copy=window._jungleRaw.slice(0);
-      ctx.decodeAudioData(copy).then(buf=>{
-        const src=ctx.createBufferSource();
-        src.buffer=buf;src.loop=true;
-        const g=ctx.createGain();g.gain.value=0.9;
-        src.connect(g);g.connect(dest);src.start();
-        nodes.push(src);
-      }).catch(e=>console.warn('jungle decode err',e));
-    } else {
-      // Fallback synth chirps
-      const n=noiseSrc(ctx,'pink',3);n.loop=true;
-      const bp=bq(ctx,'bandpass',800);bp.Q.value=0.3;const g=gn(ctx,0.12);
-      n.connect(bp);bp.connect(g);g.connect(dest);n.start();nodes.push(n);
-      function chirp(){
-        const t=ctx.currentTime;
-        [1200,1600,2000,1800].forEach((f,i)=>{
-          const o=ctx.createOscillator();o.type='sine';o.frequency.value=f;
-          const g=ctx.createGain();const s=t+i*0.06;
-          g.gain.setValueAtTime(0.12,s);g.gain.exponentialRampToValueAtTime(0.001,s+0.08);
-          o.connect(g);g.connect(dest);o.start(s);o.stop(s+0.1);
-        });
-      }
-      const tick={cancelled:false};nodes.push(tick);
-      function go(){if(tick.cancelled)return;chirp();tick.timer=setTimeout(go,(0.5+Math.random()*2)*1000);}
-      go();
-    }
-    return nodes;
-  }},
-  ambo:{build(ctx,dest){
-    const nodes=[];
-    if(window._amboRaw){
-      const copy=window._amboRaw.slice(0);
-      ctx.decodeAudioData(copy).then(buf=>{
-        const src=ctx.createBufferSource();
-        src.buffer=buf;src.loop=true;
-        const g=ctx.createGain();g.gain.value=0.9;
-        src.connect(g);g.connect(dest);src.start();
-        nodes.push(src);
-      }).catch(e=>console.warn('ambo decode err',e));
-    } else {
-      // Fallback synth siren
-      let phase=0;
-      const tick={cancelled:false};nodes.push(tick);
-      function siren(){
-        if(tick.cancelled)return;
-        const t=ctx.currentTime;
-        const o=ctx.createOscillator();o.type='sawtooth';
-        o.frequency.value=phase?770:640;
-        const g=ctx.createGain();g.gain.setValueAtTime(0.25,t);g.gain.setValueAtTime(0,t+0.45);
-        const lp=bq(ctx,'lowpass',1200);
-        o.connect(lp);lp.connect(g);g.connect(dest);o.start(t);o.stop(t+0.46);
-        phase=1-phase;tick.timer=setTimeout(siren,460);
-      }
-      siren();
-    }
-    return nodes;
-  }},
-  rain:{build(ctx,dest){
-    const nodes=[];
-    if(window._rainRaw){
-      const copy=window._rainRaw.slice(0);
-      ctx.decodeAudioData(copy).then(buf=>{
-        const src=ctx.createBufferSource();
-        src.buffer=buf;src.loop=true;
-        const g=ctx.createGain();g.gain.value=0.9;
-        src.connect(g);g.connect(dest);src.start();
-        nodes.push(src);
-      }).catch(e=>console.warn('rain decode err',e));
-    }
-    return nodes;
-  }},
-  ed:{build(ctx,dest){
-    const nodes=[];
-    if(window._edRaw){
-      const copy=window._edRaw.slice(0);
-      ctx.decodeAudioData(copy).then(buf=>{
-        const src=ctx.createBufferSource();
-        src.buffer=buf;src.loop=true;
-        const g=ctx.createGain();g.gain.value=0.9;
-        src.connect(g);g.connect(dest);src.start();
-        nodes.push(src);
-      }).catch(e=>console.warn('ed decode err',e));
-    }
-    return nodes;
-  }},
-  dali:{build(ctx,dest){
-    const nodes=[];
-    if(window._daliRaw){
-      const copy=window._daliRaw.slice(0);
-      ctx.decodeAudioData(copy).then(buf=>{
-        const src=ctx.createBufferSource();
-        src.buffer=buf;src.loop=true;
-        const g=ctx.createGain();g.gain.value=0.9;
-        src.connect(g);g.connect(dest);src.start();
-        nodes.push(src);
-      }).catch(e=>console.warn('dali decode err',e));
-    } else {
-      // Fallback synth warble
-      function melt(){
-        const t=ctx.currentTime;
-        const baseFreq=200+Math.random()*400;
-        const o=ctx.createOscillator();o.type='sine';
-        o.frequency.setValueAtTime(baseFreq,t);
-        o.frequency.linearRampToValueAtTime(baseFreq*(0.5+Math.random()),t+1.5+Math.random()*2);
-        const g=ctx.createGain();
-        g.gain.setValueAtTime(0,t);g.gain.linearRampToValueAtTime(0.12,t+0.3);
-        g.gain.linearRampToValueAtTime(0,t+1.8+Math.random()*1.5);
-        const lfo=ctx.createOscillator();lfo.type='sine';lfo.frequency.value=0.3+Math.random()*0.8;
-        const lfoG=ctx.createGain();lfoG.gain.value=30;
-        lfo.connect(lfoG);lfoG.connect(o.frequency);lfo.start(t);lfo.stop(t+3);
-        o.connect(g);g.connect(dest);o.start(t);o.stop(t+3);
-      }
-      const tick={cancelled:false};nodes.push(tick);
-      function go(){if(tick.cancelled)return;melt();tick.timer=setTimeout(go,(0.8+Math.random()*1.5)*1000);}
-      go();
-    }
-    return nodes;
-  }}
-};
-
-function startOneSilly(key){
-  if(activeSillyNodes[key])return;
-  initAudio();
-  if(audioCtx.state==='suspended')audioCtx.resume();
-  activeSillyNodes[key]=sillyDefs[key].build(audioCtx,masterGain);
-}
-function stopOneSilly(key){
-  const nodes=activeSillyNodes[key]||[];
-  nodes.forEach(n=>{
-    if(n&&n.stop){try{n.stop();}catch(e){}}
-    if(n&&n.cancelled!==undefined){n.cancelled=true;clearTimeout(n.timer);}
-  });
-  delete activeSillyNodes[key];
-}
-
-function toggleSilly(key){
-  const btn=document.getElementById('sb-'+key);
-  if(activeSillys.has(key)){
-    activeSillys.delete(key);
-    btn.classList.remove('active');
-    if(isPlaying)stopOneSilly(key);
-  } else {
-    activeSillys.add(key);
-    btn.classList.add('active');
-    if(isPlaying)startOneSilly(key);
-  }
-}
-
-function startViz(){
-  const bars=document.querySelectorAll('.bar');
-  const data=new Uint8Array(analyser.frequencyBinCount);
-  function draw(){
-    vizRaf=requestAnimationFrame(draw);
-    analyser.getByteFrequencyData(data);
-    bars.forEach((b,i)=>{const v=(data[i*2]||0)/255;b.style.transform=`scaleY(${Math.max(0.15,v*1.4)})`;});
-  }
-  draw();
-}
-function stopViz(){
-  if(vizRaf){cancelAnimationFrame(vizRaf);vizRaf=null;}
-  document.querySelectorAll('.bar').forEach(b=>b.style.transform='scaleY(0.15)');
-}
-function applyVol(){if(masterGain)masterGain.gain.setTargetAtTime(volumePct/100*1.2,audioCtx.currentTime,0.05);}
-function applyDefcon(){if(defconGain)defconGain.gain.setTargetAtTime(1+(defconPct/100)*4,audioCtx.currentTime,0.1);}
-
-function togglePlay(){
-  const ring=document.getElementById('playRing');
-  const inner=document.getElementById('playInner');
-  const label=document.getElementById('playLabel');
-  const wf=document.getElementById('waveform');
-  if(!isPlaying){
-    isPlaying=true;
-    startAllActive();
-    ring.classList.add('playing');inner.textContent='⏸';
-    label.textContent='Audio Active — Tap to Pause';wf.classList.add('playing');
-  } else {
-    isPlaying=false;stopAll();
-    if(audioCtx)audioCtx.suspend();
-    ring.classList.remove('playing');inner.textContent='▶';
-    label.textContent='Paused — Tap to Resume';wf.classList.remove('playing');
-  }
-}
-
-function updateGottaBtns(){}
-function toggleScene(card,key){
-  if(activeScenes.has(key)){
-    activeScenes.delete(key);
-    card.classList.remove('active');
-    if(isPlaying)stopOneScene(key);
-    if(key===firstScene) firstScene=[...activeScenes][0]||null;
-  } else {
-    if(activeScenes.size===0) firstScene=key;
-    activeScenes.add(key);
-    card.classList.add('active');
-    if(isPlaying)startOneScene(key);
-  }
-  currentScene=firstScene||key;
-}
-function selectScene(card,name,emoji,desc,key){ toggleScene(card,key); }
-
-
-function setIntensity(e,track){
-  const rect=track.getBoundingClientRect();
-  const pct=Math.max(0,Math.min(100,((e.clientX-rect.left)/rect.width)*100));
-  track.querySelector('.slider-fill').style.width=pct.toFixed(0)+'%';
-  intensityPct=pct;
-  const labels=['Low','Medium','High','Mayhem'];
-  document.getElementById('intVal').textContent=labels[pct<25?0:pct<50?1:pct<75?2:3];
-  if(isPlaying)startScene();
-}
-
-const alibisByCallerCategory={
-  sales:[
-    '"I can\'t talk, I\'m in the jungle canopy in Paraguay."',
-    '"Now\'s not great, I\'m halfway up a telecommunications tower."',
-    '"Can\'t chat, I\'m currently being interviewed by Interpol."',
-    '"I\'m in the middle of a controlled demolition. Can I call you back?"',
-    '"Not the best time, I\'m orbiting the earth at about 400 kilometres."',
-    '"I\'m in a shark cage. The wifi\'s actually surprisingly good but still."',
-    '"I\'m delivering a calf right now. Both of us are doing our best."',
-    '"Can\'t talk, I\'m testifying before a Senate committee."',
-    '"I\'m in the middle of a yak migration. The noise is incredible."',
-    '"Not now, I\'m being winched off a glacier."',
-  ],
-  boss:[
-    '"Still with the client — they keep adding to the brief. Should wrap by end of day."',
-    '"On-site inspection ran long, couldn\'t cut it short. Back within the hour."',
-    '"IT locked me out this morning, lost two hours. All good now, catching up."',
-    '"Stuck in traffic after the site visit. Sending through the notes now."',
-    '"Had to sort a supplier issue before it blew up. All handled. Back now."',
-  ],
-  partner:[
-    '"I\'m still at work, the meeting went late. Won\'t be long, I promise."',
-    '"Stuck helping Dave with something, couldn\'t say no. Nearly done."',
-    '"The project hit a snag, everyone needed to stay back. Leaving soon."',
-    '"Phone was on silent in a meeting, sorry for the late reply. On my way."',
-    '"Got pulled into something last minute. Grabbing food on the way home."',
-  ],
-  mum:[
-    '"I\'m fine Mum, just in a meeting. I\'ll call you back tonight."',
-    '"Work\'s been flat out, that\'s all. Nothing to worry about."',
-    '"I did eat, yes. Had lunch at my desk. Everything\'s fine."',
-    '"Signal was bad earlier, that\'s why I didn\'t answer. All good."',
-    '"Still at the office but heading off soon. I\'ll call when I\'m in the car."',
-  ],
-  mate:[
-    '"Can\'t talk, in the middle of something. I\'ll hit you back."',
-    '"Stuck on a job, not as fun as it sounds. What\'s up?"',
-    '"Dealing with a situation. You wouldn\'t believe it. Tell you later."',
-    '"Boss has got me running around. Nearly out of here though."',
-    '"In a thing. Won\'t be long. Save me one."',
-  ],
-};
-let currentCaller='sales';
-let alibiIdxByCaller={sales:0,boss:0,partner:0,mum:0,mate:0};
-
-function setCaller(chip,caller){
-  document.querySelectorAll('.caller-chip').forEach(c=>c.classList.remove('active'));
-  chip.classList.add('active');
-  currentCaller=caller;
-  const arr=alibisByCallerCategory[caller];
-  document.getElementById('alibiText').textContent=arr[alibiIdxByCaller[caller]%arr.length];
-}
-function newAlibi(){
-  const arr=alibisByCallerCategory[currentCaller];
-  alibiIdxByCaller[currentCaller]=(alibiIdxByCaller[currentCaller]+1)%arr.length;
-  document.getElementById('alibiText').textContent=arr[alibiIdxByCaller[currentCaller]];
-}
-
-// Your Scene placeholder WAV
+// Dali WAV embedded as base64
 </script>
 <script src="audio-data.js"></script>
+
 </body>
 </html>
